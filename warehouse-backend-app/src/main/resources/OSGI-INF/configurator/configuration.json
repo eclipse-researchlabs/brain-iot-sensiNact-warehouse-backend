@@ -1,0 +1,10 @@
+{
+    // Comments are permitted in configuration files, but they should be
+    // minified if they are going to be used as strict JSON
+    
+    // Global Settings
+    ":configurator:resource-version" : 1,
+    ":configurator:symbolic-name" : "org.eclipse.sensinact.brainiot.warehouse.backend.app",
+    ":configurator:version" : "1.0"    
+    
+}

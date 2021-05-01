@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Outdoor WebApp
+Bundle-SymbolicName: org.eclipse.sensinact.studio.webapp.outdoor;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.eclipse.sensinact.studio.webapp.outdoor.Activator
+Bundle-Vendor: Kentyou
+Require-Bundle: org.eclipse.core.runtime,
+ org.restlet,
+ org.eclipse.sensinact.studio.http.messages,
+ org.eclipse.sensinact.studio.http.services,
+ org.eclipse.ui.workbench,
+ org.apache.log4j
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.eclipse.sensinact.studio.webapp.outdoor

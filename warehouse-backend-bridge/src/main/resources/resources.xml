@@ -1,0 +1,47 @@
+<resourceInfos xmlns="http://org.eclipse.sensinact/resource" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://org.eclipse.sensinact/resource /home/christophe/workspace-200328-bnd/brain/org.eclipse.sensinact.gateway/platform/sensinact-generic/src/main/resources/sensinact-resource.xsd">
+	<resourceInfo xsi:type="resourceInfoProperty" name="pos" target="picking" profile="pick">
+		<identifier xsi:type="stringContent">pos</identifier>
+		<attributes>
+			<attribute name="value" type="Array of double" modifiable="MODIFIABLE"></attribute>
+		</attributes>
+	</resourceInfo>	
+	<resourceInfo xsi:type="resourceInfoProperty" name="pos" target="storing" profile="store">
+		<identifier xsi:type="stringContent">pos</identifier>
+		<attributes>
+			<attribute name="value" type="Array of double" modifiable="MODIFIABLE"></attribute>
+		</attributes>
+	</resourceInfo>	
+	<resourceInfo xsi:type="resourceInfoProperty" name="pos" target="docking" profile="dock">
+		<identifier xsi:type="stringContent">pos</identifier>
+		<attributes>
+			<attribute name="value" type="Array of double" modifiable="MODIFIABLE"></attribute>
+		</attributes>
+	</resourceInfo>	
+	<resourceInfo xsi:type="resourceInfoProperty" name="aux" target="storing" profile="store">
+		<identifier xsi:type="stringContent">aux</identifier>
+		<attributes>
+			<attribute name="value" type="Array of double" modifiable="MODIFIABLE"></attribute>
+		</attributes>
+	</resourceInfo>	
+	<resourceInfo xsi:type="resourceInfoProperty" name="aux" target="docking" profile="dock">
+		<identifier xsi:type="stringContent">aux</identifier>
+		<attributes>
+			<attribute name="value" type="Array of double" modifiable="MODIFIABLE"></attribute>
+		</attributes>
+	</resourceInfo>		
+	<resourceInfo xsi:type="resourceInfoProperty" name="assigned" target="picking" profile="pick">
+		<identifier xsi:type="stringContent">assigned</identifier>
+		<attributes>
+			<attribute name="value" type="boolean" modifiable="MODIFIABLE">
+				<value>false</value>
+			</attribute>
+		</attributes>
+	</resourceInfo>	
+	<resourceInfo xsi:type="resourceInfoProperty" name="card" target="storing" profile="store">
+		<identifier xsi:type="stringContent">card</identifier>
+		<attributes>
+			<attribute name="value" type="int" modifiable="MODIFIABLE"></attribute>
+		</attributes>
+	</resourceInfo>	
+</resourceInfos>
