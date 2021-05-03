@@ -25,7 +25,6 @@ public class WarehouseBackendTranslator {
 	public static final double DEGREES_TO_RADIUS_COEF = Math.PI / 180.0d;
 	public static final double RADIUS_TO_DEGREES_COEF = 180.0d / Math.PI;
 	public static final double A = 6378137.0d;
-    public static final double COEF = 2.609881d;
     
 	public class LatLng {
 		public double lat;
@@ -38,6 +37,7 @@ public class WarehouseBackendTranslator {
 
 	private WarehouseBackendConfiguration config;
 	private LatLng origin;
+	private double scale;
 	
 	
 	@Activate
@@ -46,10 +46,11 @@ public class WarehouseBackendTranslator {
 		this.origin  = new LatLng();
 		this.origin.lat = this.config.latitude();
 		this.origin.lng = this.config.longitude();
+		this.scale = config.scale();
     }
 
 	public LatLng getDiffLatLng(double dx, double dy) {
-		return this.getDiffLatLng(this.origin, dx*COEF, dy*COEF);
+		return this.getDiffLatLng(this.origin, dx*this.scale, dy*this.scale);
 	} 
 	
 	private LatLng getDiffLatLng(LatLng origin, double dx, double dy) {

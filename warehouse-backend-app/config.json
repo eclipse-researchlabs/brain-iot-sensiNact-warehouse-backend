@@ -9,7 +9,8 @@
 	},
 	
 	"org.eclipse.sensinact.brainiot.warehouse.backend.config":{
-		"latitude" : 39.50794222946576,
-	    "longitude" :-0.4620503985744429
+		"latitude" : 39.507939126651195,		
+	    "longitude" :-0.46202090623625136,
+	    "scale":1.0
 	}
 }

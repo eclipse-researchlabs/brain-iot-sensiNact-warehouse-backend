@@ -100,6 +100,68 @@ function latLngToLayerPoint(lat,lng){
   return pointXY;
 }
 
+function getDistance(lat1, lng1, lat2, lng2) {
+	
+   var DEGREES_TO_RADIUS_COEF = Math.PI / 180.0;
+   var A = 6378137.0;
+    
+   var dlong = ((lng2 - lng1) * DEGREES_TO_RADIUS_COEF) / 2;
+   var dlat = ((lat2 - lat1) * DEGREES_TO_RADIUS_COEF) / 2;
+   var lat1_rad = lat1 * DEGREES_TO_RADIUS_COEF;
+   var lat2_rad = lat2 * DEGREES_TO_RADIUS_COEF;
+   var c = Math.pow(Math.sin(dlat), 2.0) + Math.pow(Math.sin(dlong), 2.0) * Math.cos(lat1_rad) * Math.cos(lat2_rad);
+   var d = 2 * Math.atan2( Math.sqrt(c),Math.sqrt(1 - c));
+   return (A * d);
+}
+
+function getDiffLatLng(origin,dx,dy) {
+	
+	var DEGREES_TO_RADIUS_COEF = Math.PI / 180.0;
+	var RADIUS_TO_DEGREES_COEF = 180.0 / Math.PI;
+	var A = 6378137.0;
+    var COEF = 1.0;//2.609881.0;
+    
+	if(dx==0.0 && dy==0.0)
+		return  origin;
+
+    var agl = 0.0;
+    var brg = 0.0;
+	
+	if(dy == 0)
+		agl = dx >= 0?0:180;
+	else if(dx == 0)
+		agl = dy >= 0?90:270;
+	else 	{
+		agl = RADIUS_TO_DEGREES_COEF * Math.atan((dy/dx));
+		agl = agl + (dy<0 && dx<0?180:0);
+	}
+	var bearing=agl;
+	if(agl < 90)
+		bearing = 90-agl;
+	else if(agl <180)
+		bearing = 270+(180-agl);
+	else if(agl < 270)
+		bearing = 180+(270-agl);
+	else
+		bearing = 90+(360-agl);		
+	brg = DEGREES_TO_RADIUS_COEF * bearing;
+	var distance = Math.sqrt((Math.pow(Math.abs(dx),2)+ Math.pow(Math.abs(dy),2)));
+	
+	var lat1 = origin.lat * DEGREES_TO_RADIUS_COEF;
+	var lng1 = origin.lng * DEGREES_TO_RADIUS_COEF;
+
+	var s1 = distance / A;
+
+	var lat2 = Math.asin(Math.sin(lat1) * Math.cos(s1) + Math.cos(lat1) * Math.sin(s1) * Math.cos(brg));
+	var lng2 = lng1 + Math.atan2(Math.sin(brg) * Math.sin(s1) * Math.cos(lat1), Math.cos(s1) - Math.sin(lat1) * Math.sin(lat2));
+
+    lat2 = lat2 * RADIUS_TO_DEGREES_COEF;
+    lng2 = lng2 * RADIUS_TO_DEGREES_COEF;
+    var destination = L.latLng(lat2,lng2);
+    return destination;
+} 
+    
+
 function updateDeviceLocationOld(lat, lng, deviceName, iconName) {		
 	var markerCache = markers[deviceName]; 
     if (markerCache === undefined) {
@@ -161,7 +223,7 @@ var cmpxcoef = 37.7953;
 var naturalWidth = 544;
 var naturalHeight = 544;
 
-var lwidth = 544;//308.4133608;
+var lwidth = 208.5;
 var lheight = lwidth * (naturalHeight/naturalWidth);
 
 var coef = lwidth/naturalWidth;

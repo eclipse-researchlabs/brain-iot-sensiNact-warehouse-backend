@@ -25,16 +25,16 @@ import eu.brain.iot.warehouse.sensiNact.api.PickingPointUpdateNotice;
 public class WarehouseBackendLocationPacket implements WarehouseBackendPacket {
 
 	private String location;
-	private String robotID;
+	private String robotId;
 	
-	public WarehouseBackendLocationPacket(RobotPosition robotPosition) throws InvalidPacketException {
-		this.location = new StringBuilder().append(robotPosition.x).append(":").append(robotPosition.y).toString();
-		this.robotID = "robot".concat(String.valueOf(robotPosition.robotID));
+	public WarehouseBackendLocationPacket(String robotId, String location) throws InvalidPacketException {
+		this.location = location;
+		this.robotId = robotId;
 	}
 
 	@ServiceProviderID
 	public String getServiceProviderId() {
-		return this.robotID;
+		return this.robotId;
 	}
 
 	@ServiceID

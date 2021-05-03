@@ -13,6 +13,7 @@ package org.eclipse.sensinact.gateway.sthbnd.wb.smartbehaviour;
 import org.eclipse.sensinact.gateway.generic.packet.InvalidPacketException;
 import org.eclipse.sensinact.gateway.sthbnd.wb.WarehouseBackendComponent;
 import org.eclipse.sensinact.gateway.sthbnd.wb.packet.WarehouseBackendLocationPacket;
+import org.eclipse.sensinact.gateway.sthbnd.wb.WarehouseBackendTranslator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -27,11 +28,16 @@ public class RobotPositionUpdateListener implements SmartBehaviour<RobotPosition
 	
 	@Reference
 	WarehouseBackendComponent warehouseBackendComponent;
+
+	@Reference
+	private WarehouseBackendTranslator translator;
 	
 	@Override
-	public void notify(RobotPosition event) {
-		try {
-			warehouseBackendComponent.getEndpoint().process(new WarehouseBackendLocationPacket(event));
+	public void notify(RobotPosition robotPosition) {
+		try {			
+			warehouseBackendComponent.getEndpoint().process(new WarehouseBackendLocationPacket(
+				"robot".concat(String.valueOf(robotPosition.robotID)), this.translator.getDiffLatLng(
+					robotPosition.x, robotPosition.y).toString()));			
 		} catch (InvalidPacketException e) {
 			e.printStackTrace();
 		}

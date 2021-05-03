@@ -109,6 +109,23 @@
 <br/>
 <hr/>
 <image id="startbutton" src="image/button.jpg" width="100px" height="100px"/>
+<p/>
+<div style="display:table-row">
+    <div id="plus" style="width:50%;left:5px;display:table-cell;">
+        <a id="plus_button"><image src="image/plus_.png" style="width:20px;height:20px;"/></a>
+    </div>
+    <div id="less" style="width:50%;left:5px;display:none;">
+        <a id="less_button"><image src="image/moins_.png" style="width:20px;height:20px;"/></a>
+    </div>
+</div>
+<div id="points_extra" style="display:none;">
+	<div style="display:inline">	
+		<a id="validator"><image src="image/validation.png" style="width:20px;height:20px;"/></a>
+	</div>
+	<div style="display:inline">
+		<textarea id="points_def" rows="20" cols="150"></textarea>
+	</div>
+</div>
 </body>
 <script type="text/javascript">
 var SNA_CALLBACK = 'http://' + location.host + '/warehouse-backend';
@@ -316,12 +333,12 @@ var addStoragePointRow = function(id,x,y,z,xx,xy,xz){
 var addCardStorageRow = function(stid,cardid){
   var newRow   = cardStoragesRef.insertRow(cardStoragesRef.rows.length);
   
-  newCell  = newRow.insertCell(1);
-  newText  = document.createTextNode(cardid)
+  var newCell  = newRow.insertCell(0);
+  var newText  = document.createTextNode(cardid)
   newCell.appendChild(newText);
   
-  var newCell  = newRow.insertCell(0);
-  var newText  = document.createTextNode(stid)
+  newCell  = newRow.insertCell(1);
+  newText  = document.createTextNode(stid)
   newCell.appendChild(newText);
 }
 
@@ -422,48 +439,16 @@ addcs.onclick = function(e){
 	storageId.value = '';
 }
 
-var associateCardStorages = function(jsonFile){
-    var xhr = httpRequest();
-	xhr.open("GET", jsonFile, true);
-	xhr.onreadystatechange = function() {
-	   if (xhr.readyState == 4){
-	       var json = JSON.parse(xhr.responseText);
-	       httpPostRequest(SNA_CALLBACK + '/card', '*/*', json, function(response){alert(response);}, function(err){alert(err);}); 
-	       for(i=0;i<Object.keys(json['Cart_Storages']).length;i++){
-	          addCardStorageRow(json['Cart_Storages'][i]['storageID'],json['Cart_Storages'][i]['cartID']);
-	       }
-	   }
-	};
-	xhr.send();
-}
-
 var associateCardStorage = function(STid, card){
 	var cardStorage = {};
 	cardStorage['storageID']=STid;
-	cardStorage['cardID']= card;
+	cardStorage['cartID']= card;
 	
 	var cardStorages = {};
 	cardStorages['Cart_Storages']=[];
 	cardStorages['Cart_Storages'][0] = cardStorage;
 	httpPostRequest(SNA_CALLBACK + '/card', '*/*', cardStorages, function(response){alert(response);}, function(err){alert(err);});
 } 
-
-var createPickingPoints = function(jsonFile){
-    var xhr = httpRequest();
-	xhr.open("GET", jsonFile, true);
-	xhr.onreadystatechange = function() {
-	   if (xhr.readyState == 4){
-	       var json = JSON.parse(xhr.responseText);
-	       console.info(json);
-	       httpPostRequest(SNA_CALLBACK + '/pick', '*/*', json, function(response){alert(response);}, function(err){alert(err);}); 
-	       for(i=0;i<Object.keys(json['Picking_Points']).length;i++){
-	       	   var pick = json['Picking_Points'][i];
-	       	   addPickPointRow(pick['PPid'], pick['pos']['x'],pick['pos']['y'],pick['pos']['z'], pick['isAssigned']);
-	       }
-	   }
-	};
-	xhr.send();
-}
 
 var createPickingPoint = function(PPid,x,y,z,assigned){
 	var pickingPoint = {};
@@ -479,23 +464,6 @@ var createPickingPoint = function(PPid,x,y,z,assigned){
 	pickingPoints['Picking_Points'][0] = pickingPoint;
 	httpPostRequest(SNA_CALLBACK + '/pick', '*/*', pickingPoints, function(response){alert(response);}, function(err){alert(err);});
 } 
-
-var createStoragePoints = function(jsonFile){
-    var xhr = httpRequest();
-	xhr.open("GET", jsonFile, true);
-	xhr.onreadystatechange = function() {
-	   if (xhr.readyState == 4){
-	      var json = JSON.parse(xhr.responseText);
-	      httpPostRequest(SNA_CALLBACK + '/store', '*/*', json, function(response){alert(response);}, function(err){alert(err);});	            
-	      for(i=0;i<Object.keys(json['Picking_Points']).length;i++){
-	      	  var storage = json['Storage_Points'][i];
-	      	  addStoragePointRow(storage['STid'], storage['storagePose']['x'],storage['storagePose']['y'],storage['storagePose']['z'],
-	       	  storage['storageAUX']['x'],storage['storageAUX']['y'],storage['storageAUX']['z'] );
-	      }	       	   	 
-	   }
-	};
-	xhr.send();
-}
 
 var createStoragePoint = function(STid,xp,yp,zp,xx,yx,zx){
 	var storagePoint = {};
@@ -514,23 +482,6 @@ var createStoragePoint = function(STid,xp,yp,zp,xx,yx,zx){
 	storagePoints['Storage_Points'][0]=storagePoint;
 	httpPostRequest(SNA_CALLBACK + '/store', '*/*', storagePoints, function(response){alert(response);}, function(err){alert(err);});
 } 
-
-var createDockingPoints = function(jsonFile){
-    var xhr = httpRequest();
-	xhr.open("GET", jsonFile, true);
-	xhr.onreadystatechange = function() {
-	   if (xhr.readyState == 4){
-	      var json = JSON.parse(xhr.responseText);
-	      httpPostRequest(SNA_CALLBACK + '/dock', '*/*', json, function(response){alert(response);}, function(err){alert(err);});             
-	      for(i=0;i<Object.keys(json['Docking_Points']).length;i++){
-	          var dock = json['Docking_Points'][i];
-	      	  addDockPointRow(dock['IPid'], dock['dockPose']['x'],dock['dockPose']['y'],dock['dockPose']['z'],
-	      	  dock['dockAUX']['x'],dock['dockAUX']['y'],dock['dockAUX']['z'] );
-	      }
-	   }
-	};
-	xhr.send();
-}
 
 var createDockingPoint = function(IPid,xp,yp,zp,xx,yx,zx){
 	var dockingPoint = {};
@@ -610,5 +561,77 @@ function httpPostRequest(url, accept, content, callback, error){
 
 setTimeout(checkAssignations,1000);
 
+var plus = document.getElementById("plus");
+var plus_button = document.getElementById("plus_button");
+
+var less = document.getElementById("less");
+var less_button = document.getElementById("less_button");
+
+var points_extra = document.getElementById("points_extra");
+var points_def = document.getElementById("points_def");		
+
+var validator = document.getElementById("validator");
+
+plus_button.onclick=function(e){
+	less.style.display="table-cell";
+	plus.style.display="none";
+	points_extra.style.display="flex";
+}
+
+less_button.onclick=function(e){
+	plus.style.display="table-cell";
+	less.style.display="none";
+	points_extra.style.display="none";
+	points_def.value = '';
+}
+
+validator.onclick = function(e){
+	var jsonPoints = JSON.parse(points_def.value);	
+	var json = {};
+	json['Docking_Points'] = jsonPoints['Docking_Points'];
+    if( json['Docking_Points']!==undefined &&  json['Docking_Points'].length>0){
+		httpPostRequest(SNA_CALLBACK + '/dock', '*/*', json, function(response){alert(response);}, function(err){alert(err);});             
+		for(i=0;i<Object.keys(json['Docking_Points']).length;i++){
+		     var dock = json['Docking_Points'][i];
+			 addDockPointRow(dock['IPid'], dock['dockPose']['x'],dock['dockPose']['y'],dock['dockPose']['z'],
+		  	 dock['dockAUX']['x'],dock['dockAUX']['y'],dock['dockAUX']['z'] );
+		}
+	}
+	json = {};
+    json['Storage_Points'] = jsonPoints['Storage_Points'];
+    if( json['Storage_Points']!==undefined &&  json['Storage_Points'].length>0){
+		httpPostRequest(SNA_CALLBACK + '/store', '*/*', json, 
+		function(response){
+			alert(response);
+			assignCards(jsonPoints);
+	    }, function(err){alert(err);});	            
+		for(i=0;i<Object.keys(json['Storage_Points']).length;i++){
+		   var storage = json['Storage_Points'][i];
+		   addStoragePointRow(storage['STid'], storage['storagePose']['x'],storage['storagePose']['y'],storage['storagePose']['z'],
+		   storage['storageAUX']['x'],storage['storageAUX']['y'],storage['storageAUX']['z'] );
+		}
+	}
+	json = {};
+    json['Picking_Points'] = jsonPoints['Picking_Points'];
+    if( json['Picking_Points']!==undefined &&  json['Picking_Points'].length>0){
+		httpPostRequest(SNA_CALLBACK + '/pick', '*/*', json, function(response){alert(response);}, function(err){alert(err);}); 
+		for(i=0;i<Object.keys(json['Picking_Points']).length;i++){
+		   var pick = json['Picking_Points'][i];
+		   addPickPointRow(pick['PPid'], pick['pose']['x'],pick['pose']['y'],pick['pose']['z'], pick['isAssigned']);
+		}
+	}
+	points_def.value='';
+}
+
+function assignCards(json){
+	cards = {};
+	cards['Cart_Storages'] = json['Cart_Storages'];
+	if( cards['Cart_Storages']!==undefined &&  cards['Cart_Storages'].length>0){
+	    httpPostRequest(SNA_CALLBACK + '/card', '*/*', cards, function(response){alert(response);}, function(err){alert(err);}); 
+		for(i=0;i<Object.keys(cards['Cart_Storages']).length;i++){
+		   addCardStorageRow(cards['Cart_Storages'][i]['storageID'],cards['Cart_Storages'][i]['cartID']);
+		}
+	}
+}
 </script>
 </html>

@@ -16,4 +16,5 @@ package org.eclipse.sensinact.gateway.sthbnd.wb;
 public @interface WarehouseBackendConfiguration {
 	double latitude();
 	double longitude();
+	double scale() default 1.0d;
 }

@@ -36,7 +36,7 @@ public class OutdoorInit extends SensinactServerResource {
 		GRENOBLE("45.19954840972916", "5.702977180480957", "15"), 
 		MURCIA("37.98682789766166", "-1.1273860931396484", "13"),
 		PALERMO("38.16270754361624","13.309797048568726","13"),
-		VALENCIA("39.507938","-0.462007","13");
+		VALENCIA("39.507938","-0.462007","20");
 		
 		private final String lat;
 		private final String lng;

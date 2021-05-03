@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CartStorage {
 	
-	@JsonProperty(value="cardID")
+	@JsonProperty(value="cartID")
     private int cartID;
 	
 	@JsonProperty(value="storageID")
