@@ -28,7 +28,7 @@ icons['redFlag']=redFlag;
 var yellowFlag = L.icon({
     iconUrl: 'css/images/flag-yel.png',
     iconSize: [29, 29],
-    iconAnchor: [20, 41],
+    iconAnchor: [0, 0],
     popupAnchor: [0, -40],
     shadowUrl: 'css/images/marker-shadow.png',
     shadowSize: [41, 41],
@@ -69,16 +69,71 @@ var doorRed = L.icon({
 });
 icons['doorRed']=doorRed;
 
-var robot = L.icon({
-    iconUrl: 'css/images/robot.png',
-    iconSize: [29, 29],
-    iconAnchor: [20, 41],
+var robot1 = L.icon({
+    iconUrl: 'css/images/robot1.png',
+    iconSize: [40, 40],
+    iconAnchor: [0, 40],
     popupAnchor: [0, -40],
     shadowUrl: 'css/images/marker-shadow.png',
     shadowSize: [41, 41],
     shadowAnchor: [20, 41]
 });
-icons['robot']=robot;
+icons['robot1']=robot1;
+
+var robot2 = L.icon({
+    iconUrl: 'css/images/robot2.png',
+    iconSize: [40, 40],
+    iconAnchor: [0, 40],
+    popupAnchor: [0, -40],
+    shadowUrl: 'css/images/marker-shadow.png',
+    shadowSize: [41, 41],
+    shadowAnchor: [20, 41]
+});
+icons['robot2']=robot2;
+
+var robot3 = L.icon({
+    iconUrl: 'css/images/robot3.png',
+    iconSize: [40, 40],
+    iconAnchor: [0, 40],
+    popupAnchor: [0, -40],
+    shadowUrl: 'css/images/marker-shadow.png',
+    shadowSize: [41, 41],
+    shadowAnchor: [20, 41]
+});
+icons['robot3']=robot3;
+
+var robot4 = L.icon({
+    iconUrl: 'css/images/robot4.png',
+    iconSize: [40, 40],
+    iconAnchor: [0, 40],
+    popupAnchor: [0, -40],
+    shadowUrl: 'css/images/marker-shadow.png',
+    shadowSize: [41, 41],
+    shadowAnchor: [20, 41]
+});
+icons['robot4']=robot4;
+
+var robot5 = L.icon({
+    iconUrl: 'css/images/robot5.png',
+    iconSize: [40, 40],
+    iconAnchor: [0, 40],
+    popupAnchor: [0, -40],
+    shadowUrl: 'css/images/marker-shadow.png',
+    shadowSize: [41, 41],
+    shadowAnchor: [20, 41]
+});
+icons['robot5']=robot5;
+
+var robot6 = L.icon({
+    iconUrl: 'css/images/robot6.png',
+    iconSize: [40, 40],
+    iconAnchor: [0, 40],
+    popupAnchor: [0, -40],
+    shadowUrl: 'css/images/marker-shadow.png',
+    shadowSize: [41, 41],
+    shadowAnchor: [20, 41]
+});
+icons['robot6']=robot6;
 
 function layerPointToLatLng(x,y) {
   console.log([x, y]);
@@ -159,8 +214,7 @@ function getDiffLatLng(origin,dx,dy) {
     lng2 = lng2 * RADIUS_TO_DEGREES_COEF;
     var destination = L.latLng(lat2,lng2);
     return destination;
-} 
-    
+}     
 
 function updateDeviceLocationOld(lat, lng, deviceName, iconName) {		
 	var markerCache = markers[deviceName]; 

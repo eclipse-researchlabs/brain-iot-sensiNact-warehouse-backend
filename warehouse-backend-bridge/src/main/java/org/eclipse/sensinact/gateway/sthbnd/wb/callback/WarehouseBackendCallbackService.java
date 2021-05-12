@@ -163,7 +163,7 @@ public class WarehouseBackendCallbackService implements CallbackService, Warehou
 	}
 
 	@Override
-	public void process(CallbackContext context) {
+	public synchronized void process(CallbackContext context) {
 		
 		HttpRequestWrapper request = (HttpRequestWrapper)context.getRequest();
 		Session session= context.getSession();
@@ -269,6 +269,7 @@ public class WarehouseBackendCallbackService implements CallbackService, Warehou
 						double[] poseArray = p.getDockPose().toArray();
 						double[] poseAuxArray = p.getDockAUX().toArray();
 						String dpID = "dp".concat(p.getIPid());
+						String robotID = "robot".concat(p.getIPid());
 						String dpIDAux = dpID.concat("_AUX");
 						warehouseBackendComponent.getEndpoint().process(new WarehouseBackendDiscoveryPacket("dock", dpID ));
 						session.set(dpID, "admin", "location", DataResource.VALUE, this.translator.getDiffLatLng(poseArray[0],poseArray[1]).toString());
@@ -280,8 +281,9 @@ public class WarehouseBackendCallbackService implements CallbackService, Warehou
 						session.set(dpIDAux, "admin", "location", DataResource.VALUE,this.translator.getDiffLatLng(poseAuxArray[0],poseAuxArray[1]).toString());
 						session.set(dpIDAux, "admin", "icon", DataResource.VALUE, "door");
 						
-						warehouseBackendComponent.getEndpoint().process(new WarehouseBackendRobotDiscoveryPacket("robot".concat(p.getIPid())));
-						session.set("robot".concat(p.getIPid()), "admin", "icon", DataResource.VALUE, "robot");
+						if(session.get(robotID, "admin", "icon",DataResource.VALUE).getStatusCode()==404)
+							warehouseBackendComponent.getEndpoint().process(new WarehouseBackendRobotDiscoveryPacket(robotID));
+						session.set(robotID, "admin", "icon", DataResource.VALUE, robotID);
 						
 					} catch (Exception e) {
 						LOG.error(e.getMessage(),e);

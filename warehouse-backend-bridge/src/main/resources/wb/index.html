@@ -591,7 +591,7 @@ validator.onclick = function(e){
 	json['Docking_Points'] = jsonPoints['Docking_Points'];
     if( json['Docking_Points']!==undefined &&  json['Docking_Points'].length>0){
 		httpPostRequest(SNA_CALLBACK + '/dock', '*/*', json, function(response){alert(response);}, function(err){alert(err);});             
-		for(i=0;i<Object.keys(json['Docking_Points']).length;i++){
+		for(i=0;i<json['Docking_Points'].length;i++){
 		     var dock = json['Docking_Points'][i];
 			 addDockPointRow(dock['IPid'], dock['dockPose']['x'],dock['dockPose']['y'],dock['dockPose']['z'],
 		  	 dock['dockAUX']['x'],dock['dockAUX']['y'],dock['dockAUX']['z'] );
@@ -605,17 +605,19 @@ validator.onclick = function(e){
 			alert(response);
 			assignCards(jsonPoints);
 	    }, function(err){alert(err);});	            
-		for(i=0;i<Object.keys(json['Storage_Points']).length;i++){
+		for(i=0;i<json['Storage_Points'].length;i++){
 		   var storage = json['Storage_Points'][i];
 		   addStoragePointRow(storage['STid'], storage['storagePose']['x'],storage['storagePose']['y'],storage['storagePose']['z'],
 		   storage['storageAUX']['x'],storage['storageAUX']['y'],storage['storageAUX']['z'] );
 		}
+	} else {
+		assignCards(jsonPoints);
 	}
 	json = {};
     json['Picking_Points'] = jsonPoints['Picking_Points'];
     if( json['Picking_Points']!==undefined &&  json['Picking_Points'].length>0){
 		httpPostRequest(SNA_CALLBACK + '/pick', '*/*', json, function(response){alert(response);}, function(err){alert(err);}); 
-		for(i=0;i<Object.keys(json['Picking_Points']).length;i++){
+		for(i=0;i<json['Picking_Points'].length;i++){
 		   var pick = json['Picking_Points'][i];
 		   addPickPointRow(pick['PPid'], pick['pose']['x'],pick['pose']['y'],pick['pose']['z'], pick['isAssigned']);
 		}
@@ -628,7 +630,7 @@ function assignCards(json){
 	cards['Cart_Storages'] = json['Cart_Storages'];
 	if( cards['Cart_Storages']!==undefined &&  cards['Cart_Storages'].length>0){
 	    httpPostRequest(SNA_CALLBACK + '/card', '*/*', cards, function(response){alert(response);}, function(err){alert(err);}); 
-		for(i=0;i<Object.keys(cards['Cart_Storages']).length;i++){
+		for(i=0;i<cards['Cart_Storages'].length;i++){
 		   addCardStorageRow(cards['Cart_Storages'][i]['storageID'],cards['Cart_Storages'][i]['cartID']);
 		}
 	}

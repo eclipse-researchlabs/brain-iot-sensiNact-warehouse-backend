@@ -102,7 +102,7 @@ public class WarehouseBackendEndpoint {
 			if(!complete())
 				return null;
 			UpdateDockPoint event = new UpdateDockPoint();
-			event.robotIP = robotIP;
+			event.robotIP = robotIP.substring(2);
 			event.dockAUX = dockAUX;
 			event.dockPoint = dockPoint;
 			event.isSensiNactCMD = true;
